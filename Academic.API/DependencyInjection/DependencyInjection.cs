@@ -90,16 +90,9 @@ namespace Academic.API.DependencyInjection
             {
                 options.SwaggerDoc("AcademicAPI", new OpenApiInfo
                 {
-                    Title = "Academic",
+                    Title = "Academic System",
                     Version = "v1",
-                    Description = "Academic Web API Application",
-                });
-
-                options.SwaggerDoc("AuthenticationAPIv1", new OpenApiInfo
-                {
-                    Title = "Authentication",
-                    Version = "v1",
-                    Description = "Authentication API Endpoints",
+                    Description = "Academic System Web API Application",
                 });
 
                 options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
