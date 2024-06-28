@@ -1,4 +1,6 @@
-﻿using Academic.Core.Interfaces;
+﻿using Academic.Application.Interfaces;
+using Academic.Application.Services;
+using Academic.Core.Interfaces;
 using Academic.Infrastructure.UnitOfWork;
 
 namespace Academic.API.DependencyInjection
@@ -25,6 +27,7 @@ namespace Academic.API.DependencyInjection
 
             // Add services UnitOfWork
             services.AddScoped(typeof(IUnitOfWork<>), typeof(UnitOfWork<>));
+            services.AddScoped(typeof(IAccountService), typeof(AccountService));
 
             services.AddFluentValidationConfiguration();
 

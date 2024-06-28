@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Academic.Application.Mapper.Profiles.Account;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Academic.Application.Mapper.Configuration
 {
@@ -6,7 +7,7 @@ namespace Academic.Application.Mapper.Configuration
     {
         public static void Configure(IServiceCollection services)
         {
-            services.AddAutoMapper(typeof(AutoMapperConfiguration));
+            services.AddAutoMapper(typeof(AutoMapperConfiguration), typeof(UserMappingProfile));
         }
     }
 }
