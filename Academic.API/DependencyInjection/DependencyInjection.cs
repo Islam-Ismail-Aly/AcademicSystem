@@ -1,4 +1,7 @@
-﻿namespace Academic.API.DependencyInjection
+﻿using Academic.Core.Interfaces;
+using Academic.Infrastructure.UnitOfWork;
+
+namespace Academic.API.DependencyInjection
 {
     public static class DependencyInjection
     {
@@ -19,6 +22,9 @@
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection") ??
                     throw new InvalidOperationException("Connection string 'DefaultConnection' is not found!"));
             });
+
+            // Add services UnitOfWork
+            services.AddScoped(typeof(IUnitOfWork<>), typeof(UnitOfWork<>));
 
             services.AddFluentValidationConfiguration();
 
