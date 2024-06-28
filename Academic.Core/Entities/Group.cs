@@ -4,7 +4,7 @@ namespace Academic.Core.Entities
 {
     public class Group : BaseEntity
     {
-        public ICollection<ApplicationUser> ApplicationUsers { get; set; } = new List<ApplicationUser>();
-        public ICollection<GroupPermission> GroupPermissions { get; set; } = new List<GroupPermission>();
+        public ICollection<ApplicationUser> ApplicationUsers { get; private set; } = new HashSet<ApplicationUser>();
+        public ICollection<GroupPermission> GroupPermissions { get; private set; } = new HashSet<GroupPermission>();
     }
 }

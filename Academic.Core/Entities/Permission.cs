@@ -4,6 +4,6 @@ namespace Academic.Core.Entities
 {
     public class Permission : BaseEntity
     {
-        public ICollection<GroupPermission> GroupPermissions { get; set; } = new List<GroupPermission>();
+        public ICollection<GroupPermission> GroupPermissions { get; private set; } = new HashSet<GroupPermission>();
     }
 }

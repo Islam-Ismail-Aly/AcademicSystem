@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
-using Academic.Core.Helpers;
+using Academic.Core.Enumerations;
 
 namespace Academic.Core.Entities
 {
@@ -43,6 +43,6 @@ namespace Academic.Core.Entities
         public string ApplicationUserId { get; set; }
         public ApplicationUser ApplicationUser { get; set; }
 
-        public ICollection<StudentPhone>  StudentPhones{ get; set; } = new List<StudentPhone>();
+        public ICollection<StudentPhone>  StudentPhones{ get; private set; } = new HashSet<StudentPhone>();
     }
 }

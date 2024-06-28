@@ -1,4 +1,4 @@
-﻿using Academic.Core.Helpers;
+﻿using Academic.Core.Enumerations;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -14,6 +14,6 @@ namespace Academic.Core.Entities
         public State State { get; set; }
         public string NominatingAuthority { get; set; }
         public string Notes { get; set; }
-        public ICollection<PaymentAudit> PaymentAudits { get; set; } = new List<PaymentAudit>();
+        public ICollection<PaymentAudit> PaymentAudits { get; private set; } = new HashSet<PaymentAudit>();
     }
 }

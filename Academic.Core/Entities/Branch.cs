@@ -11,6 +11,6 @@ namespace Academic.Core.Entities
         [ForeignKey("Supervisor")]
         public int SupervisorId { get; set; }
         public Supervisor Supervisor { get; set; }
-        public ICollection<ApplicationUser> ApplicationUsers { get; set; } = new List<ApplicationUser>();
+        public ICollection<ApplicationUser> ApplicationUsers { get; private set; } = new HashSet<ApplicationUser>();
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace Academic.Core.Helpers
+﻿namespace Academic.Core.Enumerations
 {
     public enum State : byte
     {
