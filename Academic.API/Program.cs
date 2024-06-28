@@ -1,16 +1,17 @@
 
+using Academic.Application.DependencyInjection;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.AddControllers();
 
 // Register Auto Mapper
-
 AutoMapperConfiguration.Configure(builder.Services);
 
 // Allow CORS => Cross Origin Resource Sharing to consume my API
 builder.Services.AddCors();
+
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -75,8 +76,16 @@ builder.Services.AddSwaggerGen(options =>
 // Configure the connection string
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection") ?? 
+        throw new InvalidOperationException("Connection string 'DefaultConnection' is not found!"));
 });
+
+//builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection(nameof(JwtOptions.SectionName)));
+builder.Services.AddOptions<JwtOptions>().BindConfiguration(nameof(JwtOptions.SectionName))
+                                         .ValidateDataAnnotations()
+                                         .ValidateOnStart();
+
+var jwtSettings = builder.Configuration.GetSection(nameof(JwtOptions.SectionName)).Get<JwtOptions>();
 
 // Fluent Validation
 builder.Services.AddFluentValidationAutoValidation();
@@ -109,7 +118,6 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
-
 
 app.UseHttpsRedirection();
 

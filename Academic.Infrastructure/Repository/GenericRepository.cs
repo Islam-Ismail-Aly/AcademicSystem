@@ -16,13 +16,6 @@ namespace Academic.Infrastructure.Repository
             table = _context.Set<T>();
         }
 
-        public async Task DeleteAsync(object id)
-        {
-            T existing = await GetByIdAsync(id);
-            if (existing != null)
-                table.Remove(existing);
-        }
-
         public async Task<IEnumerable<T>> GetAllAsync()
         {
             return await table.AsNoTracking().ToListAsync();
@@ -53,6 +46,14 @@ namespace Academic.Infrastructure.Repository
                 query = query.Include(includeProperty);
             }
             return query;
+        }
+
+        public async Task DeleteAsync(object id)
+        {
+            T existing = await GetByIdAsync(id);
+
+            if (existing is not null)
+                table.Remove(existing);
         }
     }
 }

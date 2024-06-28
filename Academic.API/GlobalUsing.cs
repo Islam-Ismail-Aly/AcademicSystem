@@ -6,3 +6,4 @@ global using Microsoft.EntityFrameworkCore;
 global using Academic.Core.Entities;
 global using FluentValidation.AspNetCore;
 global using Microsoft.AspNetCore.Identity;
+global using Academic.Application.Authentication;

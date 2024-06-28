@@ -42,5 +42,7 @@ namespace Academic.Core.Entities
         [ForeignKey("ApplicationUser")]
         public string ApplicationUserId { get; set; }
         public ApplicationUser ApplicationUser { get; set; }
+
+        public ICollection<StudentPhone>  StudentPhones{ get; set; } = new List<StudentPhone>();
     }
 }

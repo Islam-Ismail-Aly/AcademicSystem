@@ -8,10 +8,12 @@ namespace Academic.Infrastructure.UnitOfWork
     {
         private readonly ApplicationDbContext _context;
         private IGenericRepository<T> _entity;
+
         public UnitOfWork(ApplicationDbContext context)
         {
             _context = context;
         }
+
         public IGenericRepository<T> Entity
         {
             get

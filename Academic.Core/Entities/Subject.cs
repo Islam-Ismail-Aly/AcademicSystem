@@ -6,5 +6,6 @@ namespace Academic.Core.Entities
     {
         public double MinDegree { get; set; }
         public double MaxDegree { get; set; }
+        public ICollection<CourseSubject> CourseSubjects { get; set; } = new List<CourseSubject>();
     }
 }
