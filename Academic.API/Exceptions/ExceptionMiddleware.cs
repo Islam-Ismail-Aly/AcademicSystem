@@ -1,45 +1,50 @@
-﻿using Academic.Application.Utilities;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using System.Text.Json;
 
 
 namespace Academic.API.Exceptions
 {
-    public class ExceptionMiddleware : IMiddleware
+    public class ExceptionMiddleware
     {
-        private RequestDelegate _next;
-        private ILogger<ExceptionMiddleware> _Logger;
-        private readonly IWebHostEnvironment _env;
+        private readonly RequestDelegate next;
+        private readonly IHttpContextAccessor accessor;
+        private readonly ILogger<ExceptionMiddleware> logger;
 
-        public ExceptionMiddleware(ILogger<ExceptionMiddleware> Logger, IWebHostEnvironment env)
+        public ExceptionMiddleware(RequestDelegate next, IHttpContextAccessor accessor, ILogger<ExceptionMiddleware> logger)
         {
-            //_next = next;
-            _Logger = Logger;
-            _env = env;
+            this.next = next;
+            this.logger = logger;
+            this.accessor = accessor;
         }
 
-
-        public async Task InvokeAsync(HttpContext httptContext, RequestDelegate _next)
+        public async Task Invoke(HttpContext context)
         {
             try
             {
-                await _next.Invoke(httptContext);
+                await next.Invoke(context);
             }
             catch (Exception ex)
             {
-                _Logger.LogError(ex.Message);
-                httptContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                httptContext.Response.ContentType = "application/json";
-                var response = _env.IsDevelopment() ?
-                    new ApiExcecutionResponse((int)HttpStatusCode.InternalServerError, ex.Message, ex.StackTrace.ToString())
-                    :
-                     new ApiExcecutionResponse((int)HttpStatusCode.InternalServerError);
-                var options = new JsonSerializerOptions() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
+                logger.LogError(ex, $"An error was ocurred during the process. Trace Identifier: {accessor.HttpContext.TraceIdentifier}.");
 
-
-                var json = JsonSerializer.Serialize(response, options);
-                await httptContext.Response.WriteAsync(json);
+                await HandleExceptionMessageAsync(accessor.HttpContext).ConfigureAwait(false);
             }
+        }
+
+        private static Task HandleExceptionMessageAsync(HttpContext context)
+        {
+            string response = JsonSerializer.Serialize(new ValidationProblemDetails()
+            {
+                Title = "An error was occurred.",
+                Status = (int)HttpStatusCode.InternalServerError,
+                Instance = context.Request.Path,
+            });
+
+            context.Response.ContentType = "application/json";
+            context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+
+            return context.Response.WriteAsync(response);
         }
     }
 }

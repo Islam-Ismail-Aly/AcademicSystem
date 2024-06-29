@@ -9,7 +9,12 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(options =>
+    {
+        //    options.InjectStylesheet("/swagger-ui/custom.css");
+        options.SwaggerEndpoint("/swagger/AcademicSystemAPIv1/swagger.json", "AcademicSystemAPI");
+
+    });
 }
 
 app.UseMiddleware<ExceptionMiddleware>();

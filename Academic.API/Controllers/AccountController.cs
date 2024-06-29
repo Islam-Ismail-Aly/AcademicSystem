@@ -8,6 +8,7 @@ namespace Academic.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [ApiExplorerSettings(GroupName = "AcademicSystemAPIv1")]
     public class AccountController : ControllerBase
     {
         private readonly IAccountService _accountService;

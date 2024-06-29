@@ -31,6 +31,9 @@ namespace Academic.API.DependencyInjection
 
             services.AddFluentValidationConfiguration();
 
+            // Register IHttpContextAccessor
+            services.AddHttpContextAccessor();
+
             return services;
         }
 
@@ -45,7 +48,6 @@ namespace Academic.API.DependencyInjection
 
         public static IServiceCollection AddAuthenticationConfiguration(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddHttpContextAccessor();
             services.AddIdentity<ApplicationUser, IdentityRole>(options =>
             {
                 // Configure password requirements
@@ -91,12 +93,23 @@ namespace Academic.API.DependencyInjection
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen(options =>
             {
-                options.SwaggerDoc("AcademicAPI", new OpenApiInfo
+                options.SwaggerDoc("AcademicSystemAPIv1", new OpenApiInfo
                 {
                     Title = "Academic System",
                     Version = "v1",
-                    Description = "Academic System Web API Application",
+                    Description = "AddressBook Web API Application",
+                    Contact = new OpenApiContact
+                    {
+                        Name = "ITI Team",
+                        Email = "iti@gmail.com",
+                    },
+                    License = new OpenApiLicense
+                    {
+                        Name = "ITI Team License",
+                    }
                 });
+
+                // For Authorize the API with JWT Bearer Tokens
 
                 options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
