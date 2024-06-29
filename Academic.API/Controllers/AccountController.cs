@@ -1,13 +1,7 @@
-﻿using Academic.Application.DTOs.Account;
-using Academic.Application.Interfaces;
-using Academic.Application.Utilities;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-
-namespace Academic.API.Controllers
+﻿namespace Academic.API.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
     [ApiExplorerSettings(GroupName = "AcademicSystemAPIv1")]
     public class AccountController : ControllerBase
     {
@@ -19,7 +13,7 @@ namespace Academic.API.Controllers
         }
 
         [HttpPost]
-        public async Task<ApiResponse>  Register(ApplicationUserDTO dto)
+        public async Task<ApiResponse> Register(ApplicationUserDTO dto)
         {
             return await _accountService.Add(dto);
         }

@@ -1,9 +1,4 @@
-﻿using Academic.Application.Interfaces;
-using Academic.Application.Services;
-using Academic.Core.Interfaces;
-using Academic.Infrastructure.UnitOfWork;
-
-namespace Academic.API.DependencyInjection
+﻿namespace Academic.API.DependencyInjection
 {
     public static class DependencyInjection
     {
@@ -28,6 +23,9 @@ namespace Academic.API.DependencyInjection
             // Add services UnitOfWork
             services.AddScoped(typeof(IUnitOfWork<>), typeof(UnitOfWork<>));
             services.AddScoped(typeof(IAccountService), typeof(AccountService));
+            services.AddScoped(typeof(IBranchService), typeof(BranchService));
+            services.AddScoped(typeof(ISupervisorService), typeof(SupervisorService));
+            services.AddScoped(typeof(IGroupPermissionService), typeof(GroupPermissionService));
 
             services.AddFluentValidationConfiguration();
 

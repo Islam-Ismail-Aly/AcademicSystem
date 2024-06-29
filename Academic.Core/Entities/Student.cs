@@ -14,33 +14,33 @@ namespace Academic.Core.Entities
         public string Address { get; set; }
         public DateTime DateOfBirth { get; set; }
         public DateTime SubmissionDate { get; set; }
-        public string GraduationYear { get; set; }
-        public string AcademicYear { get; set; }
-        public string Photo { get; set; }
-        public string QualificationCertificate { get; set; }
-        public string IdentityCard { get; set; }
-        public string SSN { get; set; }
-        public MilitaryStatus MilitrayStatus { get; set; }
-        public Gender Gender { get; set; }
-        public string Degree { get; set; }
-        public Religion Religion { get; set; }
-        public string Telephone { get; set; }
-        public decimal MoneyPaid { get; set; }
+        public string? GraduationYear { get; set; }
+        public string? AcademicYear { get; set; }
+        public string? Photo { get; set; }
+        public string? QualificationCertificate { get; set; }
+        public string? IdentityCard { get; set; }
+        public string? SSN { get; set; }
+        public MilitaryStatus? MilitrayStatus { get; set; }
+        public Gender? Gender { get; set; }
+        public string? Degree { get; set; }
+        public Religion? Religion { get; set; }
+        public string? Telephone { get; set; }
+        public decimal? MoneyPaid { get; set; }
 
         [ForeignKey("Payment")]
-        public int PaymentId { get; set; }
+        public int? PaymentId { get; set; }
         public Payment Payment { get; set; }
 
         [ForeignKey("Course")]
-        public int CourseId { get; set; }
+        public int? CourseId { get; set; }
         public Course Course { get; set; }
 
         [ForeignKey("Branch")]
-        public int BranchId { get; set; }
+        public int? BranchId { get; set; }
         public Branch Branch { get; set; }
 
         [ForeignKey("ApplicationUser")]
-        public string ApplicationUserId { get; set; }
+        public string? ApplicationUserId { get; set; }
         public ApplicationUser ApplicationUser { get; set; }
 
         public ICollection<StudentPhone>  StudentPhones{ get; private set; } = new HashSet<StudentPhone>();

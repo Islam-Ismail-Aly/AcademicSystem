@@ -12,11 +12,11 @@ namespace Academic.Core.Entities
         public decimal Amount { get; set; }
 
         [ForeignKey("Payment")]
-        public int PaymentId { get; set; }
+        public int? PaymentId { get; set; }
         public Payment Payment { get; set; }
 
         [ForeignKey("ApplicationUser")]
-        public string ApplicationUserId { get; set; }
+        public string? ApplicationUserId { get; set; }
         public ApplicationUser ApplicationUser { get; set; }
     }
 }

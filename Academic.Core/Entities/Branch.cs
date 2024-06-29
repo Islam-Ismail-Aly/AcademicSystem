@@ -9,7 +9,7 @@ namespace Academic.Core.Entities
         public string Telephone { get; set; }
 
         [ForeignKey("Supervisor")]
-        public int SupervisorId { get; set; }
+        public int? SupervisorId { get; set; }
         public Supervisor Supervisor { get; set; }
         public ICollection<ApplicationUser> ApplicationUsers { get; private set; } = new HashSet<ApplicationUser>();
     }
