@@ -5,7 +5,7 @@ namespace Academic.API.Controllers
     [ApiController]
     [Route("api/[controller]")]
     [Produces("application/json")]
-    [SwaggerTag("Branches Management")]
+    [SwaggerTag("Group Permission Management")]
     [ApiExplorerSettings(GroupName = "AcademicSystemAPIv1")]
     public class GroupPermissionController : ControllerBase
     {

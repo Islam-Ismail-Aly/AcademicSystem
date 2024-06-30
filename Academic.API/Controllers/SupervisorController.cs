@@ -3,7 +3,7 @@
     [ApiController]
     [Route("api/[controller]")]
     [Produces("application/json")]
-    [SwaggerTag("Branches Management")]
+    [SwaggerTag("Supervisors Management")]
     [ApiExplorerSettings(GroupName = "AcademicSystemAPIv1")]
     public class SupervisorController : ControllerBase
     {

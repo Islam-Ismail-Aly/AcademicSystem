@@ -2,6 +2,8 @@
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Produces("application/json")]
+    [SwaggerTag("Authentication Management")]
     [ApiExplorerSettings(GroupName = "AcademicSystemAPIv1")]
     public class AccountController : ControllerBase
     {

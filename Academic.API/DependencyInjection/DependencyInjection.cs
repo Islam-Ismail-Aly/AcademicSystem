@@ -1,4 +1,6 @@
-﻿namespace Academic.API.DependencyInjection
+﻿
+
+namespace Academic.API.DependencyInjection
 {
     public static class DependencyInjection
     {
@@ -26,6 +28,8 @@
             services.AddScoped(typeof(IBranchService), typeof(BranchService));
             services.AddScoped(typeof(ISupervisorService), typeof(SupervisorService));
             services.AddScoped(typeof(IGroupPermissionService), typeof(GroupPermissionService));
+            services.AddScoped(typeof(ICommonRepository<>), typeof(CommonRepository<>));
+            services.AddScoped(typeof(IDashboardService), typeof(DashboardService));
 
             services.AddFluentValidationConfiguration();
 
