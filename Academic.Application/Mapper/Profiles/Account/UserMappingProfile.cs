@@ -13,7 +13,8 @@ namespace Academic.Application.Mapper.Profiles.Account
                 .ForMember(d => d.UserName, s => s.MapFrom(s => s.FullName))
                 .ForMember(d => d.Email, s => s.MapFrom(s => s.Email))
                 .ForMember(d => d.GroupId, s => s.MapFrom(s => s.GroupId))
-                .ForMember(d => d.BranchId, s => s.MapFrom(s => s.BranchId));
+                .ForMember(d => d.BranchId, s => s.MapFrom(s => s.BranchId))
+                .ForMember(d => d.Language, s => s.MapFrom(s => s.Language)).ReverseMap();
         }
     }
 }

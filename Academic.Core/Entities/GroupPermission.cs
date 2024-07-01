@@ -1,4 +1,6 @@
-﻿namespace Academic.Core.Entities
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Academic.Core.Entities
 {
     public class GroupPermission
     {

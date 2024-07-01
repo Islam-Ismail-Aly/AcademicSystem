@@ -1,4 +1,6 @@
 ﻿using Academic.Application.DTOs.Dashboard;
+using Academic.Application.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Academic.API.Controllers
 {

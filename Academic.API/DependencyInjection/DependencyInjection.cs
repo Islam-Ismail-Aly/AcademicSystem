@@ -1,5 +1,14 @@
 ﻿
 
+using Academic.Application.Authorization;
+using Academic.Application.Interfaces;
+using Academic.Application.Interfaces.IRepository;
+using Academic.Application.Repositories;
+using Academic.Application.Services;
+using Academic.Core.Interfaces;
+using Academic.Infrastructure.UnitOfWork;
+using Microsoft.AspNetCore.Authorization;
+
 namespace Academic.API.DependencyInjection
 {
     public static class DependencyInjection
@@ -21,6 +30,16 @@ namespace Academic.API.DependencyInjection
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection") ??
                     throw new InvalidOperationException("Connection string 'DefaultConnection' is not found!"));
             });
+
+
+            // Add Authorization Services
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("Permission", policy =>
+                policy.Requirements.Add(new PermissionRequirement("PermissionName")));
+            });
+            services.AddSingleton<IAuthorizationHandler, PermissionHandler>();
+
 
             // Add services UnitOfWork
             services.AddScoped(typeof(IUnitOfWork<>), typeof(UnitOfWork<>));
@@ -64,10 +83,10 @@ namespace Academic.API.DependencyInjection
 
             services.AddScoped<UserManager<ApplicationUser>>();
 
-            services.AddOptions<JwtOptions>().BindConfiguration(nameof(JwtOptions.SectionName))
-                                                     .ValidateDataAnnotations();
+            //services.AddOptions<JwtOptions>().BindConfiguration(nameof(JwtOptions.SectionName));
 
-            var jwtSettings = configuration.GetSection(nameof(JwtOptions.SectionName)).Get<JwtOptions>();
+            //var jwtSettings = configuration.GetSection(nameof(JwtOptions.SectionName)).Get<JwtOptions>();
+            services.Configure<JwtOptions>(configuration.GetSection(JwtOptions.SectionName.ToString()));
 
             // Add Authentication for JwtBearer Json Web Token
             services.AddAuthentication(options =>
