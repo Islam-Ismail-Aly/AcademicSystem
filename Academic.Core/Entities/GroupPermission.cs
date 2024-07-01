@@ -4,7 +4,12 @@ namespace Academic.Core.Entities
 {
     public class GroupPermission
     {
-        public int GroupId { get; set; }
-        public int PermissionId { get; set; }
+        [ForeignKey("Group")]
+        public int? GroupId { get; set; }
+        public Group Group { get; set; }
+
+        [ForeignKey("Permission")]
+        public int? PermissionId { get; set; }
+        public Permission Permission { get; set; }
     }
 }
