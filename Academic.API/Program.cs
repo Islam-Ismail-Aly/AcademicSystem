@@ -1,19 +1,11 @@
-using Academic.Application.DTOs.SubjectDTOs;
-using Academic.Application.Interfaces;
-using Academic.Application.Services;
-using Academic.Core.Interfaces;
-using Academic.Infrastructure.Repository;
-using Academic.Infrastructure.UnitOfWork;
-using Microsoft.Extensions.Options;
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddDependenciesConfiguration(builder.Configuration);
-builder.Services.AddControllers();
-builder.Services.AddScoped<IGenericRepository<Subject>, GenericRepository<Subject>>();
-builder.Services.AddScoped<IUnitOfWork<Subject>, UnitOfWork<Subject>>();
-builder.Services.AddScoped<IService<SubjectDTO>, SubjectService>();
+
+//builder.Services.AddScoped<IGenericRepository<Subject>, GenericRepository<Subject>>();
+//builder.Services.AddScoped<IUnitOfWork<Subject>, UnitOfWork<Subject>>();
+//builder.Services.AddScoped<IService<SubjectDTO>, SubjectService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

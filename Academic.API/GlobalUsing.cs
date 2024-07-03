@@ -24,3 +24,5 @@ global using Academic.Application.Constants;
 global using Academic.Application.Services;
 global using Academic.Core.Interfaces;
 global using Academic.Infrastructure.UnitOfWork;
+global using Academic.Application.Interfaces.IRepository;
+global using Academic.Application.Repositories;
