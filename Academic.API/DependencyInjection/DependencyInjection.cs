@@ -26,6 +26,7 @@
             services.AddScoped(typeof(IBranchService), typeof(BranchService));
             services.AddScoped(typeof(ISupervisorService), typeof(SupervisorService));
             services.AddScoped(typeof(IGroupPermissionService), typeof(GroupPermissionService));
+            services.AddScoped(typeof(IPaymentStudentSevices), typeof(PaymentStudentService));
 
             services.AddFluentValidationConfiguration();
 

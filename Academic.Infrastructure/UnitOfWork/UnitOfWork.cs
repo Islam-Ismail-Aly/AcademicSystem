@@ -8,6 +8,7 @@ namespace Academic.Infrastructure.UnitOfWork
     {
         private readonly ApplicationDbContext _context;
         private IGenericRepository<T> _entity;
+        private IStudentRepository _studentRepository;
 
         public UnitOfWork(ApplicationDbContext context)
         {
@@ -19,6 +20,14 @@ namespace Academic.Infrastructure.UnitOfWork
             get
             {
                 return _entity ?? (_entity = new GenericRepository<T>(_context));
+            }
+        }
+
+        public IStudentRepository StudentRepository
+        {
+            get
+            {
+                return _studentRepository ?? (_studentRepository = new StudentRepository(_context));
             }
         }
 
