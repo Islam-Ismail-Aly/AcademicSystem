@@ -8,7 +8,7 @@ namespace Academic.Infrastructure.UnitOfWork
     {
         private readonly ApplicationDbContext _context;
         private IGenericRepository<T> _entity;
-
+        private IElementRepository<T> _elementRepository;
         public UnitOfWork(ApplicationDbContext context)
         {
             _context = context;
@@ -21,6 +21,15 @@ namespace Academic.Infrastructure.UnitOfWork
                 return _entity ?? (_entity = new GenericRepository<T>(_context));
             }
         }
+
+        public IElementRepository<T> Element
+        {
+            get
+            {
+                return _elementRepository?? (_elementRepository = new ElementRepository<T>(_context));
+            }
+        }
+
 
         public async Task SaveAsync()
         {

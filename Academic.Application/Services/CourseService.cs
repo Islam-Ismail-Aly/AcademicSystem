@@ -1,5 +1,4 @@
-﻿using Academic.Application.DTOs.CourseDTO;
-using Academic.Application.DTOs.SubjectDTOs;
+﻿using Academic.Application.DTOs.Course;
 using Academic.Application.Interfaces;
 using Academic.Application.Utilities;
 using Academic.Core.Entities;
@@ -27,7 +26,7 @@ namespace Academic.Application.Services
         }
         public async Task<ApiResponse> Add(CourseDTO dto)
         {
-            Course course = mapper.Map<Course>(dto);
+            Course course = new Course() { Name = dto.Name, Description = dto.Description, Price = dto.Price, TotalHours = dto.TotalHours };
             await CourseUnitOfWork.Entity.InsertAsync(course);
             await CourseUnitOfWork.SaveAsync();
             return new ApiResponse(StatusCodes.Status201Created, "Course is created Successfully.");
@@ -70,7 +69,7 @@ namespace Academic.Application.Services
 
         public async Task Update(CourseDTO dto)
         {
-            Course course = mapper.Map<Course>(dto);
+            Course course = new Course() { Id=dto.Id,Name = dto.Name, Description = dto.Description, Price = dto.Price, TotalHours = dto.TotalHours };
             await CourseUnitOfWork.Entity.UpdateAsync(course);
             await CourseUnitOfWork.SaveAsync();
         }

@@ -1,5 +1,9 @@
 ﻿
 
+using Academic.Application.DTOs.Course;
+using Academic.Application.DTOs.Subjects;
+using Academic.Infrastructure.Repository;
+
 namespace Academic.API.DependencyInjection
 {
     public static class DependencyInjection
@@ -30,6 +34,12 @@ namespace Academic.API.DependencyInjection
             services.AddScoped(typeof(IGroupPermissionService), typeof(GroupPermissionService));
             services.AddScoped(typeof(ICommonRepository<>), typeof(CommonRepository<>));
             services.AddScoped(typeof(IDashboardService), typeof(DashboardService));
+            services.AddScoped(typeof(IService<SubjectDTO>), typeof(SubjectService));
+            services.AddScoped(typeof(IService<CourseDTO>), typeof(CourseService));
+            services.AddScoped(typeof(IStudentService), typeof(StudentService));
+            services.AddScoped(typeof(IStudentPhoneService), typeof(StudentPhonesService));
+            services.AddScoped(typeof(ICourseSubjectService), typeof(CourseSubjectsService));
+
 
             services.AddFluentValidationConfiguration();
 

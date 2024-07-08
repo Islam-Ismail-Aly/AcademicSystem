@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Academic.Application.DTOs.SubjectDTOs
+namespace Academic.Application.DTOs.Subjects
 {
     public class SubjectDTO
     {

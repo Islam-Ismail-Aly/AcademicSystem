@@ -1,4 +1,5 @@
-﻿using Academic.Application.DTOs.CourseDTO;
+﻿using Academic.Application.DTOs.Course;
+using Academic.Application.DTOs.Course;
 using Academic.Core.Entities;
 using AutoMapper;
 using System;

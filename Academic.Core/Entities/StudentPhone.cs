@@ -1,6 +1,6 @@
 ﻿namespace Academic.Core.Entities
 {
-    public class StudentPhone
+    public class T
     {
         public int StudentId { get; set; }
         public string Phone { get; set; }

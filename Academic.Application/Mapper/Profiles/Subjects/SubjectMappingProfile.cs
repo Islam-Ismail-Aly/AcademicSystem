@@ -1,4 +1,4 @@
-﻿using Academic.Application.DTOs.SubjectDTOs;
+﻿using Academic.Application.DTOs.Subjects;
 using Academic.Core.Entities;
 using AutoMapper;
 using System;
