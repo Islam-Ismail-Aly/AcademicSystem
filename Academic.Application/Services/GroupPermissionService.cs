@@ -48,8 +48,19 @@ namespace Academic.Application.Services
             var group = _mapper.Map<Group>(groupDto);
             await _groupUnitOfWork.Entity.InsertAsync(group);
             await _groupUnitOfWork.SaveAsync();
-
             return new APIResponseResult<bool>(true, "Group added successfully");
+        }
+
+        public async Task<APIResponseResult<GroupDTO>> GetGroupByNameAsync(string name) 
+        {
+            var groups = await _groupUnitOfWork.Entity.GetAllAsync();
+            var groupDtos = _mapper.Map<IEnumerable<GroupDTO>>(groups);
+            GroupDTO group = groupDtos.Where(g=>g.Name==name).First();
+            if (group == null)
+            {
+                return new APIResponseResult<GroupDTO>(group, "something went wrong");
+            }
+            else { return new APIResponseResult<GroupDTO>(group, "Group found successfully"); }
         }
 
         public async Task<APIResponseResult<bool>> UpdateGroupAsync(GroupDTO groupDto)

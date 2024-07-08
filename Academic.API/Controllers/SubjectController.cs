@@ -1,5 +1,6 @@
 ﻿using Academic.Application.DTOs.SubjectDTOs;
 using Academic.Application.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,6 +9,7 @@ namespace Academic.API.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [ApiExplorerSettings(GroupName = "AcademicSystemAPIv1")]
+    [Authorize(Roles = "Subjects")]
     public class SubjectController : ControllerBase
     {
         private readonly IService<SubjectDTO> service;

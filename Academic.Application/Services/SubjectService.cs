@@ -31,10 +31,18 @@ namespace Academic.Application.Services
             return new ApiResponse(StatusCodes.Status201Created, "Subject is created Successfully.");
         }
 
-        public async Task Delete(object Id)
+        public async Task<ApiResponse> Delete(object Id)
         {
-            await SubjectUnitOfWork.Entity.DeleteAsync(Id);
-            await SubjectUnitOfWork.SaveAsync();
+            try
+            {
+                await SubjectUnitOfWork.Entity.DeleteAsync(Id);
+                await SubjectUnitOfWork.SaveAsync();
+                return new ApiResponse(StatusCodes.Status201Created, "Subject has been Deleted");
+            }
+            catch (Exception ex)
+            {
+                return new ApiResponse(StatusCodes.Status500InternalServerError, "Somthing went wrong");
+            }
         }
 
         public async Task<IEnumerable<SubjectDTO>> GetAll()
@@ -64,14 +72,21 @@ namespace Academic.Application.Services
             SubjectDTO dto = mapper.Map<SubjectDTO>(subject);
             dto.Id = subject.Id;
             return (dto);
-
         }
 
-        public async Task Update(SubjectDTO dto)
+        public async Task<ApiResponse> Update(SubjectDTO dto)
         {
-            Subject subject = mapper.Map<Subject>(dto);
-            await SubjectUnitOfWork.Entity.UpdateAsync(subject);
-            await SubjectUnitOfWork.SaveAsync();
+            try
+            {
+                Subject subject = mapper.Map<Subject>(dto);
+                await SubjectUnitOfWork.Entity.UpdateAsync(subject);
+                await SubjectUnitOfWork.SaveAsync();
+                return new ApiResponse(StatusCodes.Status201Created, "Subject has been Updated");
+            }
+            catch (Exception ex)
+            {
+                return new ApiResponse(StatusCodes.Status500InternalServerError, "Somthing went wrong");
+            }
         }
     }
 }

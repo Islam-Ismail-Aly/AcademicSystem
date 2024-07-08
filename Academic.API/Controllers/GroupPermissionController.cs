@@ -1,4 +1,5 @@
 ﻿using Academic.Application.DTOs.GroupPermission;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Academic.API.Controllers
 {
@@ -7,6 +8,7 @@ namespace Academic.API.Controllers
     [Produces("application/json")]
     [SwaggerTag("Group Permission Management")]
     [ApiExplorerSettings(GroupName = "AcademicSystemAPIv1")]
+    [Authorize(Roles = "Groups")]
     public class GroupPermissionController : ControllerBase
     {
         private readonly IGroupPermissionService _groupPermissionService;
@@ -79,6 +81,18 @@ namespace Academic.API.Controllers
             if (!result.Success)
                 return StatusCode(result.StatusCode, result);
             return NoContent();
+        }
+
+        [HttpPost("Groups/GetGroupByName")]
+        [SwaggerOperation(Summary = GroupPermissionControllerSwaggerAttributes.DeleteGroupSummary)]
+        [SwaggerResponse(204, GroupPermissionControllerSwaggerAttributes.DeleteGroupResponse204)]
+        [SwaggerResponse(404, GroupPermissionControllerSwaggerAttributes.DeleteGroupResponse404)]
+        public async Task<ActionResult<APIResponseResult<GroupDTO>>> GetGroupByName(GroupName name)
+        {
+            var result = await _groupPermissionService.GetGroupByNameAsync(name.name);
+            if (!result.Success)
+                    return NoContent();
+               return StatusCode(result.StatusCode, result);
         }
 
         // Permission operations

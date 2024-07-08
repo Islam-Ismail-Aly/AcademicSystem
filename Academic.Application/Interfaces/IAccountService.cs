@@ -1,4 +1,5 @@
 ﻿using Academic.Application.DTOs.Account;
+using Academic.Application.Pagination;
 using Academic.Application.Utilities;
 using System;
 using System.Collections.Generic;
@@ -12,5 +13,6 @@ namespace Academic.Application.Interfaces
     {
         public Task<AccountResponseLoginDTO> Login(AccountLoginDTO dto);
         public Task<ApiResponse> SignOut();
+        public Task<PaginatedList<ApplicationUserDTO>> GetPagination();
     }
 }

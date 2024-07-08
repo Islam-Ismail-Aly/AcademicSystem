@@ -1,14 +1,15 @@
 ﻿using Academic.Application.Authentication;
 using Academic.Application.DTOs.Account;
 using Academic.Application.Interfaces;
+using Academic.Application.Pagination;
 using Academic.Application.Utilities;
 using Academic.Core.Entities;
+using Academic.Core.Interfaces;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using System.Diagnostics;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -21,20 +22,26 @@ namespace Academic.Application.Services
         private readonly JwtOptions _jwtService;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly IUnitOfWork<ApplicationUser> _unitOfWork;
+        private readonly IPasswordHasher<ApplicationUser> _passwordHasher;
+        private readonly IRoleService _roleService;
 
         public AccountService(UserManager<ApplicationUser> userManager, IMapper mapper
-            ,IOptions<JwtOptions> options, SignInManager<ApplicationUser> signInManager)
+            , IOptions<JwtOptions> options, SignInManager<ApplicationUser> signInManager,
+            IUnitOfWork<ApplicationUser> unitOfWork,IPasswordHasher<ApplicationUser> passwordHasher,
+            IRoleService roleService)
         {
             _userManager = userManager;
             _mapper = mapper;
             _jwtService = options.Value;
             _signInManager = signInManager;
+            _unitOfWork = unitOfWork;
+            _passwordHasher = passwordHasher;
+            _roleService = roleService;
         }
-
 
         public async Task<ApiResponse> Add(ApplicationUserDTO dto)
         {
-
             if (await _userManager.FindByEmailAsync(dto.Email) != null)
             {
                 return new ApiResponse(StatusCodes.Status400BadRequest, "Email is already registered");
@@ -44,17 +51,21 @@ namespace Academic.Application.Services
             {
                 return new ApiResponse(StatusCodes.Status400BadRequest, "Username is already registered");
             }
-            ApplicationUser user = _mapper.Map<ApplicationUser>(dto);
-
+            RegisterDTO Registeruser = _mapper.Map<RegisterDTO>(dto);
+            ApplicationUser user = _mapper.Map<ApplicationUser>(Registeruser);
             var result = await _userManager.CreateAsync(user, dto.Password);
+           
+
             if (result.Succeeded)
             {
+                if (user.GroupId != null) {
+                   await _userManager.AddToRolesAsync(user, await _roleService.GetGroupRoles((int)user.GroupId));
+                }
                 return new ApiResponse(StatusCodes.Status201Created, "User has been created");
             }
             else
             {
                 return new ApiResponse(StatusCodes.Status500InternalServerError, "Somthing went wrong");
-
             }
 
         }
@@ -65,25 +76,41 @@ namespace Academic.Application.Services
             return new ApiResponse(StatusCodes.Status201Created, "Signed Out");
         }
 
-
-
-        public async Task Delete(object Id)
+        public async Task<ApiResponse> Delete(object Id)
         {
+            IdentityResult result = await _userManager.DeleteAsync(await _userManager.FindByIdAsync(Id.ToString()));
+            if (result.Succeeded)
+            {
+                return new ApiResponse(StatusCodes.Status201Created, "User has been deleted");
+            }
+            else
+            {
+                return new ApiResponse(StatusCodes.Status500InternalServerError, "Somthing went wrong");
+            }
+        }
+
+        public async Task<IEnumerable<ApplicationUserDTO>> GetAll()
+        {
+
+            List<ApplicationUser> users = (List<ApplicationUser>)await _unitOfWork.Entity.GetAllAsync();
+            return users.Select(selector: user => _mapper.Map<ApplicationUserDTO>(user)).ToList();
             
         }
 
 
-
-        public async Task<IEnumerable<ApplicationUserDTO>> GetAll()
+        public async Task<PaginatedList<ApplicationUserDTO>> GetPagination()
         {
-            throw new NotImplementedException();
+            List<ApplicationUser> users = (List<ApplicationUser>)await _unitOfWork.Entity.GetAllAsync();
+            IQueryable<ApplicationUserDTO> usersDTO =users.Select(selector: user => _mapper.Map<ApplicationUserDTO>(user)).AsQueryable();
+            PaginatedList<ApplicationUserDTO> result = await PaginatedList<ApplicationUserDTO>.CreateAsync(usersDTO, 1, 5);
+            return result;
         }
 
 
 
         public async Task<ApplicationUserDTO> GetById(object Id, string? include)
         {
-            throw new NotImplementedException();
+            return _mapper.Map<ApplicationUserDTO>(await _userManager.FindByIdAsync(Id.ToString()));
         }
 
 
@@ -104,10 +131,10 @@ namespace Academic.Application.Services
             var roles = await _userManager.GetRolesAsync(user);
 
             Response.IsAuthenticated = true;
-          
-            
+
+
             Response.Token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
-            
+
             Response.Email = user.Email;
             Response.UserName = user.UserName;
             Response.ExpiresOn = jwtSecurityToken.ValidTo;
@@ -141,7 +168,7 @@ namespace Academic.Application.Services
 
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtService.Key));
             var securityCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-            
+
             var jwtSecurityToken = new JwtSecurityToken(
                 claims: claims,
                 expires: DateTime.Now.AddDays(_jwtService.DurationInDays),
@@ -152,9 +179,23 @@ namespace Academic.Application.Services
 
 
 
-        public async Task Update(ApplicationUserDTO dto)
+        public async Task<ApiResponse> Update(ApplicationUserDTO dto)
         {
-            throw new NotImplementedException();
+            ApplicationUser user = await _userManager.FindByIdAsync(dto.Id);
+            if (user == null) { return new ApiResponse(StatusCodes.Status500InternalServerError, "Somthing went wrong"); }
+            else {
+                //_mapper.Map(dto,user);
+                user.Id = dto.Id;
+                user.UserName = dto.UserName;
+                user.Email = dto.Email;
+                user.FullName = dto.FullName;
+                user.BranchId = dto.BranchId;
+                user.GroupId = dto.GroupId;
+                user.Language = dto.Language;
+                user.PasswordHash = _passwordHasher.HashPassword(user, dto.Password);
+                _ = await _userManager.UpdateAsync(user);
+                return new ApiResponse(StatusCodes.Status201Created, "User has been Updated");
+            }
         }
     }
 }

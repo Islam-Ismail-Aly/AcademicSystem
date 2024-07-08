@@ -1,6 +1,7 @@
 ﻿
 
 using Academic.Application.Authorization;
+using Academic.Application.DTOs.Role;
 using Academic.Application.Interfaces;
 using Academic.Application.Interfaces.IRepository;
 using Academic.Application.Repositories;
@@ -33,17 +34,18 @@ namespace Academic.API.DependencyInjection
 
 
             // Add Authorization Services
-            services.AddAuthorization(options =>
-            {
-                options.AddPolicy("Permission", policy =>
-                policy.Requirements.Add(new PermissionRequirement("PermissionName")));
-            });
-            services.AddSingleton<IAuthorizationHandler, PermissionHandler>();
+            //services.AddAuthorization(options =>
+            //{
+            //    options.AddPolicy("Permission", policy =>
+            //    policy.Requirements.Add(new PermissionRequirement("PermissionName")));
+            //});
+            //services.AddSingleton<IAuthorizationHandler, PermissionHandler>();
 
 
             // Add services UnitOfWork
             services.AddScoped(typeof(IUnitOfWork<>), typeof(UnitOfWork<>));
             services.AddScoped(typeof(IAccountService), typeof(AccountService));
+            services.AddScoped(typeof(IRoleService), typeof(RoleService));
             services.AddScoped(typeof(IBranchService), typeof(BranchService));
             services.AddScoped(typeof(ISupervisorService), typeof(SupervisorService));
             services.AddScoped(typeof(IGroupPermissionService), typeof(GroupPermissionService));
