@@ -1,6 +1,7 @@
 ﻿using Academic.Application.DTOs.Subjects;
 using Academic.Application.Interfaces;
 using Academic.Application.Utilities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
