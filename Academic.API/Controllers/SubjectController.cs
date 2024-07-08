@@ -1,6 +1,6 @@
-﻿using Academic.Application.DTOs.SubjectDTOs;
+﻿using Academic.Application.DTOs.Subjects;
 using Academic.Application.Interfaces;
-using Microsoft.AspNetCore.Authorization;
+using Academic.Application.Utilities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,10 +19,51 @@ namespace Academic.API.Controllers
         }
 
         [HttpGet]
-        public Task <IEnumerable<SubjectDTO>> Get()
+        public async Task <ActionResult> Get()
         {
-            var subjectDTOs =  service.GetAll();
-            return (subjectDTOs);
+            var subjectDTOs =  await service.GetAll();
+            if(subjectDTOs==null)
+                return Ok();
+
+            return Ok(subjectDTOs);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult> getById(int id)
+        {
+            SubjectDTO subjectDTO = await service.GetById(id,null);
+            if (subjectDTO == null)
+                return NotFound();
+           
+            return Ok(subjectDTO);
+        }
+
+        [HttpPost]
+        [Route("subject")]
+        public async Task<ApiResponse> Add(SubjectDTO subject)
+        {
+            var result =await service.Add(subject);
+            return (result);
+        }
+
+        [HttpDelete("Delete")]
+        
+        public async Task<ActionResult> delete(int id)
+        {
+            var subject = await service.GetById(id,null);
+            if (subject == null)
+                return NotFound();
+              await service.Delete(id);
+            return Ok(subject);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<ActionResult> update(int id, SubjectDTO subjectDTO)
+        {
+            
+            subjectDTO.Id = id;
+            await service.Update(subjectDTO);
+            return Ok(subjectDTO);
         }
 
     }

@@ -1,4 +1,4 @@
-﻿using Academic.Application.DTOs.SubjectDTOs;
+﻿using Academic.Application.DTOs.Subjects;
 using Academic.Application.Interfaces;
 using Academic.Application.Utilities;
 using Academic.Core.Entities;
@@ -25,7 +25,7 @@ namespace Academic.Application.Services
         }
         public async Task<ApiResponse> Add(SubjectDTO dto)
         {
-            Subject subject = mapper.Map<Subject>(dto);
+            Subject subject = new Subject() { Name=dto.Name,MinDegree=dto.MinDegree,MaxDegree=dto.MaxDegree};
             await SubjectUnitOfWork.Entity.InsertAsync(subject);
             await SubjectUnitOfWork.SaveAsync();
             return new ApiResponse(StatusCodes.Status201Created, "Subject is created Successfully.");

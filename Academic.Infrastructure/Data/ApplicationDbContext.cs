@@ -20,7 +20,7 @@ namespace Academic.Infrastructure.Data
         public virtual DbSet<PaymentAudit> PaymentAudits { get; set; }
         public virtual DbSet<Permission> Permissions { get; set; }
         public virtual DbSet<Student> Students { get; set; }
-        public virtual DbSet<StudentPhone> StudentPhones { get; set; }
+        public virtual DbSet<T> StudentPhones { get; set; }
         public virtual DbSet<Subject> Subjects { get; set; }
         public virtual DbSet<Supervisor> Supervisors { get; set; }
 

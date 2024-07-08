@@ -8,8 +8,7 @@ namespace Academic.Infrastructure.UnitOfWork
     {
         private readonly ApplicationDbContext _context;
         private IGenericRepository<T> _entity;
-        private IStudentRepository _studentRepository;
-
+        private IElementRepository<T> _elementRepository;
         public UnitOfWork(ApplicationDbContext context)
         {
             _context = context;
@@ -23,13 +22,14 @@ namespace Academic.Infrastructure.UnitOfWork
             }
         }
 
-        public IStudentRepository StudentRepository
+        public IElementRepository<T> Element
         {
             get
             {
-                return _studentRepository ?? (_studentRepository = new StudentRepository(_context));
+                return _elementRepository?? (_elementRepository = new ElementRepository<T>(_context));
             }
         }
+
 
         public async Task SaveAsync()
         {

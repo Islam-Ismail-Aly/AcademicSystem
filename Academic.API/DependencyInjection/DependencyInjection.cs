@@ -42,6 +42,12 @@
             services.AddScoped(typeof(IStudentRepository), typeof(StudentRepository));
             services.AddScoped(typeof(INewPaymentService), typeof(NewPaymentService));
             services.AddScoped(typeof(INewPaymentAuditService), typeof(NewPaymentAuditService));
+            services.AddScoped(typeof(IService<SubjectDTO>), typeof(SubjectService));
+            services.AddScoped(typeof(IService<CourseDTO>), typeof(CourseService));
+            services.AddScoped(typeof(IStudentService), typeof(StudentService));
+            services.AddScoped(typeof(IStudentPhoneService), typeof(StudentPhonesService));
+            services.AddScoped(typeof(ICourseSubjectService), typeof(CourseSubjectsService));
+
 
             services.AddFluentValidationConfiguration();
 

@@ -1,9 +1,12 @@
 ﻿using Academic.Application.DTOs.CourseSubjects;
-using Academic.Application.DTOs.SubjectDTOs;
+using Academic.Application.DTOs.Student;
+using Academic.Application.DTOs.StudentPhones;
+using Academic.Application.DTOs.Subjects;
 using Academic.Application.Interfaces;
 using Academic.Application.Utilities;
 using Academic.Core.Entities;
 using Academic.Core.Interfaces;
+using Academic.Infrastructure.UnitOfWork;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using System;
@@ -14,80 +17,97 @@ using System.Threading.Tasks;
 
 namespace Academic.Application.Services
 {
-    public class CourseSubjectsService : IService<CourseSubjectsDTO>
+    public class CourseSubjectsService : ICourseSubjectService
     {
         private readonly IUnitOfWork<CourseSubject> unitOfWork;
+        private readonly IUnitOfWork<Subject>subjectUnitOfWork;
         private readonly IMapper mapper;
 
-        public CourseSubjectsService(IUnitOfWork<CourseSubject> unitOfWork, IMapper mapper)
+        public CourseSubjectsService(IUnitOfWork<CourseSubject> unitOfWork, IMapper mapper, IUnitOfWork<Subject> subjectUnitOfWork)
         {
-            this.unitOfWork=unitOfWork;
-            this.mapper=mapper;
-            
+            this.unitOfWork = unitOfWork;
+            this.mapper = mapper;
+            this.subjectUnitOfWork = subjectUnitOfWork;
         }
-        public async Task<ApiResponse> Add(CourseSubjectsDTO dto)
+
+        public async Task<APIResponseResult<bool>> AddCourseSubjects(CourseSubjectsDTO courseSubjectsDTO)
         {
-            CourseSubject subject = mapper.Map<CourseSubject>(dto);
-            await unitOfWork.Entity.InsertAsync(subject);
+            var courseSubject = new CourseSubject() { CourseId = courseSubjectsDTO.CourseId, SubjectId = courseSubjectsDTO.SubjectId };
+            await unitOfWork.Entity.InsertAsync(courseSubject);
             await unitOfWork.SaveAsync();
-            return new ApiResponse(StatusCodes.Status201Created, "CourseSubject is created Successfully.");
+
+            return new APIResponseResult<bool>(true, "CourseSubject is added successfully");
+        }
+
+        public async Task<APIResponseResult<bool>> DeletecourseSubject(int CourseId, int SubjectId)
+        {
+            var courseSubject = unitOfWork.Element.GetElement(s => s.CourseId == CourseId && s.SubjectId == SubjectId, null);
+
+            if (courseSubject is null)
+                return new APIResponseResult<bool>(false, "StudentPhone is not found");
+
+            unitOfWork.Element.DeleteElement(courseSubject);
+            await unitOfWork.SaveAsync();
+
+            return new APIResponseResult<bool>(true, "CourseSubject is deleted successfully");
+        }
+
+        public async Task<APIResponseResult<IEnumerable<CourseSubjectsDTO>>> GetAllCourseSubjects()
+        {
+            var CourseSubjects = await unitOfWork.Entity.GetAllAsync();
+            var CourseSubjectDTOs = new List<CourseSubjectsDTO>();
+            if (CourseSubjects is null)
+                return new APIResponseResult<IEnumerable<CourseSubjectsDTO>>(null, "CourseSubjects are not found");
+            foreach (var student in CourseSubjects)
+            {
+                CourseSubjectsDTO dto = mapper.Map<CourseSubjectsDTO>(student);
+
+                CourseSubjectDTOs.Add(dto);
+
+            }
+            return new APIResponseResult<IEnumerable<CourseSubjectsDTO>>(CourseSubjectDTOs, "All CourseSubjects are Retrieved Successfully");
 
         }
 
-        public async Task<ApiResponse> Delete(object Id)
+        public async Task<APIResponseResult<IEnumerable<SubjectDTO>>> GetAllCourseSubjectsByCourseId(int CourseId)
         {
-            try { 
-                await unitOfWork.Entity.DeleteAsync(Id);
-                await unitOfWork.SaveAsync();
-                return new ApiResponse(StatusCodes.Status201Created, "CourseSubject has been Deleted");
-            }
-            catch (Exception ex)
+            var CourseSubjects = unitOfWork.Element.GetElements(s => s.CourseId == CourseId, "Subject");
+            var CourseSubjectDTOs = new List<SubjectDTO>();
+            if (CourseSubjects is null)
+                return new APIResponseResult<IEnumerable<SubjectDTO>>(null, "CourseSubjects are not found");
+            foreach (var cs in CourseSubjects)
             {
-                return new ApiResponse(StatusCodes.Status500InternalServerError, "Somthing went wrong");
+                var subject = await subjectUnitOfWork.Entity.GetByIdAsync(cs.SubjectId);
+                SubjectDTO dto = mapper.Map<SubjectDTO>(subject);
+                CourseSubjectDTOs.Add(dto);
+
             }
+            return new APIResponseResult<IEnumerable<SubjectDTO>>(CourseSubjectDTOs, "All CourseSubjects are Retrieved Successfully");
+
         }
 
-        public async Task<IEnumerable<CourseSubjectsDTO>> GetAll()
-        {
-            List<CourseSubject> courseSubjects = (List<CourseSubject>)await unitOfWork.Entity.GetAllAsync();
-            List<CourseSubjectsDTO> courseSubjectsDTOs = new List<CourseSubjectsDTO>();
-            if (courseSubjects == null)
-            {
-                return null;
-            }
-            else
-            {
-                foreach (var subject in courseSubjects)
-                {
-                    CourseSubjectsDTO dto = mapper.Map<CourseSubjectsDTO>(subject);
-                    courseSubjectsDTOs.Add(dto);
 
-                }
-                return (courseSubjectsDTOs);
-            }
+     
+
+            public async Task<APIResponseResult<CourseSubjectsDTO>> GetCourseSubjectsById(int CourseId, int SubjectId)
+        {
+            var courseSubject = unitOfWork.Element.GetElement(s => s.CourseId == CourseId && s.SubjectId == SubjectId, null);
+
+            if (courseSubject == null)
+                return new APIResponseResult<CourseSubjectsDTO>(null, "courseSubject is not found");
+
+            var courseSubjectDTO = mapper.Map<CourseSubjectsDTO>(courseSubject);
+            return new APIResponseResult<CourseSubjectsDTO>(courseSubjectDTO, "courseSubject is Retrieved Successfully");
+
         }
 
-        public async Task<CourseSubjectsDTO> GetById(object Id, string? include)
+        public async Task<APIResponseResult<bool>> UpdatecourseSubject(CourseSubjectsDTO courseSubjectDTO)
         {
-            CourseSubject subject = await unitOfWork.Entity.GetByIdAsync(Id);
-            CourseSubjectsDTO dto = mapper.Map<CourseSubjectsDTO>(subject);
-            return (dto);
-        }
+            var CourseSubjects = new CourseSubject() { CourseId = courseSubjectDTO.CourseId, SubjectId = courseSubjectDTO.SubjectId};
+            await unitOfWork.Entity.UpdateAsync(CourseSubjects);
+            await unitOfWork.SaveAsync();
 
-        public async Task<ApiResponse> Update(CourseSubjectsDTO dto)
-        {
-            try
-            {
-                CourseSubject subject = mapper.Map<CourseSubject>(dto);
-                await unitOfWork.Entity.UpdateAsync(subject);
-                await unitOfWork.SaveAsync();
-                return new ApiResponse(StatusCodes.Status201Created, "CourseSubject has been Updated");
-            }
-            catch (Exception ex)
-            {
-                return new ApiResponse(StatusCodes.Status500InternalServerError, "Somthing went wrong");
-            }
-
+            return new APIResponseResult<bool>(true, "CourseSubject is Updated successfully");
         }
     }
 }
