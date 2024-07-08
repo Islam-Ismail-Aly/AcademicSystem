@@ -32,10 +32,18 @@ namespace Academic.Application.Services
             return new ApiResponse(StatusCodes.Status201Created, "Course is created Successfully.");
         }
 
-        public async Task Delete(object Id)
+        public async Task<ApiResponse> Delete(object Id)
         {
-            await CourseUnitOfWork.Entity.DeleteAsync(Id);
-            await CourseUnitOfWork.SaveAsync();
+            try {
+                await CourseUnitOfWork.Entity.DeleteAsync(Id);
+                await CourseUnitOfWork.SaveAsync();
+                return new ApiResponse(StatusCodes.Status201Created, "Course has been deleted");
+            }
+            catch(Exception ex)
+            {
+                return new ApiResponse(StatusCodes.Status500InternalServerError, "Somthing went wrong");
+            }
+
         }
 
         public async Task<IEnumerable<CourseDTO>> GetAll()
@@ -67,11 +75,19 @@ namespace Academic.Application.Services
             return (dto);
         }
 
-        public async Task Update(CourseDTO dto)
+        public async  Task<ApiResponse> Update(CourseDTO dto)
         {
-            Course course = new Course() { Id=dto.Id,Name = dto.Name, Description = dto.Description, Price = dto.Price, TotalHours = dto.TotalHours };
+            try { 
+            Course course = mapper.Map<Course>(dto);
             await CourseUnitOfWork.Entity.UpdateAsync(course);
             await CourseUnitOfWork.SaveAsync();
+                return new ApiResponse(StatusCodes.Status201Created, "Course has been Updated");
+            }
+            catch (Exception ex)
+            {
+                return new ApiResponse(StatusCodes.Status500InternalServerError, "Somthing went wrong");
+            }
+
         }
     }
 }

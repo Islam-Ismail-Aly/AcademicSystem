@@ -10,8 +10,6 @@ namespace Academic.Application.Mapper.Profiles.Supervisors
         public SupervisorMappingProfile()
         {
             // Mapping for Branch and BranchDto
-            CreateMap<Branch, BranchDTO>()
-                .ForMember(dest => dest.SupervisorName, opt => opt.MapFrom(src => src.Supervisor.Name));
             CreateMap<BranchDTO, Branch>()
                 .ForMember(dest => dest.Supervisor, opt => opt.Ignore())
                 .ForMember(dest => dest.ApplicationUsers, opt => opt.Ignore());

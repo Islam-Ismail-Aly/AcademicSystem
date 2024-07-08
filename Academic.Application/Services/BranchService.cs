@@ -76,7 +76,6 @@ namespace Academic.Application.Services
             var branch = _mapper.Map<Branch>(branchDto);
             await _unitOfWork.Entity.UpdateAsync(branch);
             await _unitOfWork.SaveAsync();
-
             return new APIResponseResult<bool>(true, "Branches updated successfully");
         }
 

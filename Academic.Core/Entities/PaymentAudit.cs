@@ -22,5 +22,7 @@ namespace Academic.Core.Entities
         [ForeignKey("ApplicationUser")]
         public string? ApplicationUserId { get; set; }
         public ApplicationUser ApplicationUser { get; set; }
+
+        public string? Notes { get; set; }
     }
 }

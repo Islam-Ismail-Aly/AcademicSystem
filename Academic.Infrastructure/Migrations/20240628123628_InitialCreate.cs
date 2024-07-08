@@ -256,7 +256,8 @@ namespace Academic.Infrastructure.Migrations
                     TransactionDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     PaymentId = table.Column<int>(type: "int", nullable: false),
-                    ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Notes = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -266,7 +267,7 @@ namespace Academic.Infrastructure.Migrations
                         column: x => x.ApplicationUserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
                         name: "FK_PaymentAudits_Payments_PaymentId",
                         column: x => x.PaymentId,
@@ -314,7 +315,7 @@ namespace Academic.Infrastructure.Migrations
                         column: x => x.SupervisorId,
                         principalTable: "Supervisors",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -365,13 +366,13 @@ namespace Academic.Infrastructure.Migrations
                         column: x => x.CourseId,
                         principalTable: "Courses",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Students_Payments_PaymentId",
                         column: x => x.PaymentId,
                         principalTable: "Payments",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.InsertData(

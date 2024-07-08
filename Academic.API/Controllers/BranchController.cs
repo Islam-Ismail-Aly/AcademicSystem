@@ -1,10 +1,13 @@
-﻿namespace Academic.API.Controllers
+﻿using Microsoft.AspNetCore.Authorization;
+
+namespace Academic.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
     [Produces("application/json")]
     [SwaggerTag("Branches Management")]
     [ApiExplorerSettings(GroupName = "AcademicSystemAPIv1")]
+    [Authorize(Roles = "Branches")]
     public class BranchController : ControllerBase
     {
         private readonly IBranchService _branchService;

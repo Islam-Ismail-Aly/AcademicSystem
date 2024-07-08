@@ -11,6 +11,7 @@ namespace Academic.Application.Interfaces
         Task<APIResponseResult<bool>> AddGroupAsync(GroupDTO groupDto);
         Task<APIResponseResult<bool>> UpdateGroupAsync(GroupDTO groupDto);
         Task<APIResponseResult<bool>> DeleteGroupAsync(int id);
+        Task<APIResponseResult<GroupDTO>> GetGroupByNameAsync(string name);
 
         // Permission operations
         Task<APIResponseResult<IEnumerable<PermissionDTO>>> GetAllPermissionsAsync();

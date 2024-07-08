@@ -1,5 +1,17 @@
 ﻿
 
+using Academic.Application.Authorization;
+using Academic.Application.DTOs.Role;
+using Academic.Application.Interfaces;
+using Academic.Application.Interfaces.IRepository;
+using Academic.Application.Repositories;
+using Academic.Application.Services;
+using Academic.Core.Interfaces;
+using Academic.Infrastructure.UnitOfWork;
+using Microsoft.AspNetCore.Authorization;
+
+using Academic.Infrastructure.Repository;
+
 using Academic.Application.DTOs.Course;
 using Academic.Application.DTOs.Subjects;
 using Academic.Infrastructure.Repository;
@@ -26,14 +38,28 @@ namespace Academic.API.DependencyInjection
                     throw new InvalidOperationException("Connection string 'DefaultConnection' is not found!"));
             });
 
+
+            // Add Authorization Services
+            //services.AddAuthorization(options =>
+            //{
+            //    options.AddPolicy("Permission", policy =>
+            //    policy.Requirements.Add(new PermissionRequirement("PermissionName")));
+            //});
+            //services.AddSingleton<IAuthorizationHandler, PermissionHandler>();
+
+
             // Add services UnitOfWork
             services.AddScoped(typeof(IUnitOfWork<>), typeof(UnitOfWork<>));
             services.AddScoped(typeof(IAccountService), typeof(AccountService));
+            services.AddScoped(typeof(IRoleService), typeof(RoleService));
             services.AddScoped(typeof(IBranchService), typeof(BranchService));
             services.AddScoped(typeof(ISupervisorService), typeof(SupervisorService));
             services.AddScoped(typeof(IGroupPermissionService), typeof(GroupPermissionService));
             services.AddScoped(typeof(ICommonRepository<>), typeof(CommonRepository<>));
             services.AddScoped(typeof(IDashboardService), typeof(DashboardService));
+            services.AddScoped(typeof(IStudentRepository), typeof(StudentRepository));
+            services.AddScoped(typeof(INewPaymentService), typeof(NewPaymentService));
+            services.AddScoped(typeof(INewPaymentAuditService), typeof(NewPaymentAuditService));
             services.AddScoped(typeof(IService<SubjectDTO>), typeof(SubjectService));
             services.AddScoped(typeof(IService<CourseDTO>), typeof(CourseService));
             services.AddScoped(typeof(IStudentService), typeof(StudentService));
@@ -74,10 +100,10 @@ namespace Academic.API.DependencyInjection
 
             services.AddScoped<UserManager<ApplicationUser>>();
 
-            services.AddOptions<JwtOptions>().BindConfiguration(nameof(JwtOptions.SectionName))
-                                                     .ValidateDataAnnotations();
+            //services.AddOptions<JwtOptions>().BindConfiguration(nameof(JwtOptions.SectionName));
 
-            var jwtSettings = configuration.GetSection(nameof(JwtOptions.SectionName)).Get<JwtOptions>();
+            //var jwtSettings = configuration.GetSection(nameof(JwtOptions.SectionName)).Get<JwtOptions>();
+            services.Configure<JwtOptions>(configuration.GetSection(JwtOptions.SectionName.ToString()));
 
             // Add Authentication for JwtBearer Json Web Token
             services.AddAuthentication(options =>

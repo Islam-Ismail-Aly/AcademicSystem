@@ -1,10 +1,13 @@
-﻿namespace Academic.API.Controllers
+﻿using Microsoft.AspNetCore.Authorization;
+
+namespace Academic.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
     [Produces("application/json")]
     [SwaggerTag("Supervisors Management")]
     [ApiExplorerSettings(GroupName = "AcademicSystemAPIv1")]
+    [Authorize(Roles = "Users")]
     public class SupervisorController : ControllerBase
     {
         private readonly ISupervisorService _supervisorService;

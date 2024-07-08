@@ -252,6 +252,21 @@ namespace Academic.Infrastructure.Migrations
                     b.ToTable("GroupPermissions");
                 });
 
+            modelBuilder.Entity("Academic.Core.Entities.GroupRole", b =>
+                {
+                    b.Property<int?>("GroupId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("RoleId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("GroupId", "RoleId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("GroupRoles");
+                });
+
             modelBuilder.Entity("Academic.Core.Entities.Payment", b =>
                 {
                     b.Property<int>("Id")
@@ -694,6 +709,25 @@ namespace Academic.Infrastructure.Migrations
                     b.Navigation("Permission");
                 });
 
+            modelBuilder.Entity("Academic.Core.Entities.GroupRole", b =>
+                {
+                    b.HasOne("Academic.Core.Entities.Group", "Group")
+                        .WithMany("GroupRoles")
+                        .HasForeignKey("GroupId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", "Role")
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Group");
+
+                    b.Navigation("Role");
+                });
+
             modelBuilder.Entity("Academic.Core.Entities.PaymentAudit", b =>
                 {
                     b.HasOne("Academic.Core.Entities.ApplicationUser", "ApplicationUser")
@@ -826,6 +860,8 @@ namespace Academic.Infrastructure.Migrations
                     b.Navigation("ApplicationUsers");
 
                     b.Navigation("GroupPermissions");
+
+                    b.Navigation("GroupRoles");
                 });
 
             modelBuilder.Entity("Academic.Core.Entities.Payment", b =>

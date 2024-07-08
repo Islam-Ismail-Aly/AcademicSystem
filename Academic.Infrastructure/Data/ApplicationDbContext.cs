@@ -15,6 +15,7 @@ namespace Academic.Infrastructure.Data
         public virtual DbSet<CourseSubject> CourseSubjects { get; set; }
         public virtual DbSet<Group> Groups { get; set; }
         public virtual DbSet<GroupPermission> GroupPermissions { get; set; }
+        public virtual DbSet<GroupRole> GroupRoles { get; set; }
         public virtual DbSet<Payment> Payments { get; set; }
         public virtual DbSet<PaymentAudit> PaymentAudits { get; set; }
         public virtual DbSet<Permission> Permissions { get; set; }
