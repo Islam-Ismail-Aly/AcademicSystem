@@ -1,10 +1,4 @@
-﻿using Academic.Application.DTOs.Subjects;
-using Academic.Application.Interfaces;
-using Academic.Application.Utilities;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-
-namespace Academic.API.Controllers
+﻿namespace Academic.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -13,16 +7,16 @@ namespace Academic.API.Controllers
     public class SubjectController : ControllerBase
     {
         private readonly IService<SubjectDTO> service;
-        public SubjectController(IService<SubjectDTO>service)
+        public SubjectController(IService<SubjectDTO> service)
         {
             this.service = service;
         }
 
         [HttpGet]
-        public async Task <ActionResult> Get()
+        public async Task<ActionResult> Get()
         {
-            var subjectDTOs =  await service.GetAll();
-            if(subjectDTOs==null)
+            var subjectDTOs = await service.GetAll();
+            if (subjectDTOs == null)
                 return Ok();
 
             return Ok(subjectDTOs);
@@ -31,10 +25,10 @@ namespace Academic.API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult> getById(int id)
         {
-            SubjectDTO subjectDTO = await service.GetById(id,null);
+            SubjectDTO subjectDTO = await service.GetById(id, null);
             if (subjectDTO == null)
                 return NotFound();
-           
+
             return Ok(subjectDTO);
         }
 
@@ -42,25 +36,25 @@ namespace Academic.API.Controllers
         [Route("subject")]
         public async Task<ApiResponse> Add(SubjectDTO subject)
         {
-            var result =await service.Add(subject);
+            var result = await service.Add(subject);
             return (result);
         }
 
         [HttpDelete("Delete")]
-        
+
         public async Task<ActionResult> delete(int id)
         {
-            var subject = await service.GetById(id,null);
+            var subject = await service.GetById(id, null);
             if (subject == null)
                 return NotFound();
-              await service.Delete(id);
+            await service.Delete(id);
             return Ok(subject);
         }
 
         [HttpPut("{id}")]
         public async Task<ActionResult> update(int id, SubjectDTO subjectDTO)
         {
-            
+
             subjectDTO.Id = id;
             await service.Update(subjectDTO);
             return Ok(subjectDTO);

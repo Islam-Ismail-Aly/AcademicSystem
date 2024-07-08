@@ -1,4 +1,7 @@
-﻿namespace Academic.API.DependencyInjection
+﻿using Academic.Application.DTOs.Course;
+using Academic.Application.DTOs.Subjects;
+
+namespace Academic.API.DependencyInjection
 {
     public static class DependencyInjection
     {
