@@ -1,10 +1,14 @@
 ﻿using Academic.Core.Enumerations;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Academic.Application.DTOs.PaymentDTOs
 {
-    public class PaymentDTO
+    public class AddPaymentDTO
     {
-        public int Id { get; set; }
         public decimal MoneyPaid { get; set; }
         public decimal RestOfMoney { get; set; }
         public State? State { get; set; }

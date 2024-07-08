@@ -2,35 +2,22 @@
 using Academic.Core.Interfaces;
 using Academic.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Academic.Infrastructure.Repository
 {
-    public class StudentRepository : GenericRepository<Student>, IStudentRepository
+    public class StudentRepository : IStudentRepository
     {
         private readonly ApplicationDbContext _context;
-        public StudentRepository(ApplicationDbContext context):base(context)
+        public StudentRepository(ApplicationDbContext context)
         {
             _context = context;
         }
         public async Task<IEnumerable<Student>> GetAllStudentsPerBranchAsync(int branchId)
         {
-           return await _context.Students
-                  .Where(student => student.BranchId == branchId)
-                  .AsNoTracking()
-                  .ToListAsync();
+            return await _context.Students.Include(s => s.ApplicationUser)
+                   .Where(student => student.BranchId == branchId)
+                   .AsNoTracking()
+                   .ToListAsync();
         }
-
-        //public async Task<IEnumerable<StudentCoursesPaymentDetailsDTO>> GetStudentCoursesPaymentDetailsAsync(int branchId)
-        //{
-        //    return await _context.Students
-        //           .Where(student => student.BranchId == branchId)
-        //           .AsNoTracking()
-        //           .ToListAsync();
-        //}
     }
 }
