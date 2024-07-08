@@ -10,6 +10,8 @@ using Academic.Core.Interfaces;
 using Academic.Infrastructure.UnitOfWork;
 using Microsoft.AspNetCore.Authorization;
 
+using Academic.Infrastructure.Repository;
+
 namespace Academic.API.DependencyInjection
 {
     public static class DependencyInjection
@@ -51,6 +53,9 @@ namespace Academic.API.DependencyInjection
             services.AddScoped(typeof(IGroupPermissionService), typeof(GroupPermissionService));
             services.AddScoped(typeof(ICommonRepository<>), typeof(CommonRepository<>));
             services.AddScoped(typeof(IDashboardService), typeof(DashboardService));
+            services.AddScoped(typeof(IStudentRepository), typeof(StudentRepository));
+            services.AddScoped(typeof(INewPaymentService), typeof(NewPaymentService));
+            services.AddScoped(typeof(INewPaymentAuditService), typeof(NewPaymentAuditService));
 
             services.AddFluentValidationConfiguration();
 

@@ -361,3 +361,7 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/Academic.Application/Mapper/Profiles/Account/UserMappingProfile.cs
+/Academic.Application/Mapper/Profiles/Subjects/SubjectMappingProfile.cs
+/Academic.Application/Services/AccountService.cs
+/Academic.Infrastructure/Repository/GenericRepository.cs

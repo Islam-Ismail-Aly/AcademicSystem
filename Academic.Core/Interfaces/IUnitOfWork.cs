@@ -3,6 +3,7 @@
     public interface IUnitOfWork<T> where T : class
     {
         IGenericRepository<T> Entity { get; }
+        IStudentRepository StudentRepository {  get; }
         Task SaveAsync();
     }
 }
