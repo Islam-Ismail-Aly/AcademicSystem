@@ -1,22 +1,4 @@
-﻿
-
-using Academic.Application.Authorization;
-using Academic.Application.DTOs.Role;
-using Academic.Application.Interfaces;
-using Academic.Application.Interfaces.IRepository;
-using Academic.Application.Repositories;
-using Academic.Application.Services;
-using Academic.Core.Interfaces;
-using Academic.Infrastructure.UnitOfWork;
-using Microsoft.AspNetCore.Authorization;
-
-using Academic.Infrastructure.Repository;
-
-using Academic.Application.DTOs.Course;
-using Academic.Application.DTOs.Subjects;
-using Academic.Infrastructure.Repository;
-
-namespace Academic.API.DependencyInjection
+﻿namespace Academic.API.DependencyInjection
 {
     public static class DependencyInjection
     {
