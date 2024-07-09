@@ -13,7 +13,7 @@ namespace Academic.API.Controllers
     [Produces("application/json")]
     [SwaggerTag("Authentication Management")]
     [ApiExplorerSettings(GroupName = "AcademicSystemAPIv1")]
-    [Authorize(Roles = "Users")]
+    //[Authorize(Roles = "Users")]
     public class AccountController : ControllerBase
     {
         private readonly IAccountService _accountService;

@@ -8,7 +8,7 @@ namespace Academic.API.Controllers
     [Produces("application/json")]
     [SwaggerTag("Group Permission Management")]
     [ApiExplorerSettings(GroupName = "AcademicSystemAPIv1")]
-    [Authorize(Roles = "Groups")]
+    //[Authorize(Roles = "Groups")]
     public class GroupPermissionController : ControllerBase
     {
         private readonly IGroupPermissionService _groupPermissionService;

@@ -7,7 +7,7 @@ namespace Academic.API.Controllers
     [Produces("application/json")]
     [SwaggerTag("Supervisors Management")]
     [ApiExplorerSettings(GroupName = "AcademicSystemAPIv1")]
-    [Authorize(Roles = "Users")]
+    //[Authorize(Roles = "Users")]
     public class SupervisorController : ControllerBase
     {
         private readonly ISupervisorService _supervisorService;

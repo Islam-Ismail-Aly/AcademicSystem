@@ -7,10 +7,13 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Academic.API.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
+    [Produces("application/json")]
     [SwaggerTag("CourseSubject Management")]
     [ApiExplorerSettings(GroupName = "AcademicSystemAPIv1")]
+    //[Authorize(Roles = "CourseSubject")]
+
     public class CourseSubjectController : ControllerBase
     {
         private readonly ICourseSubjectService service;

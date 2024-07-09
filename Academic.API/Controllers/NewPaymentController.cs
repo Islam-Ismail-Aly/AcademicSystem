@@ -7,6 +7,7 @@ namespace Academic.API.Controllers
     [Produces("application/json")]
     [SwaggerTag("Payment Management")]
     [ApiExplorerSettings(GroupName = "AcademicSystemAPIv1")]
+    //[Authorize(Roles = "Payments")]
     public class NewPaymentController : ControllerBase
     {
         private readonly INewPaymentService _newPaymentService;

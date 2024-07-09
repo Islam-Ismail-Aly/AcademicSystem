@@ -6,8 +6,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Academic.API.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
+    [Produces("application/json")]
+    [SwaggerTag("Roles Management")]
     [Authorize(Roles = "Groups")]
     public class RoleController : ControllerBase
     {

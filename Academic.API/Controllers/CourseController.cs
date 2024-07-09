@@ -8,9 +8,12 @@ using System.Diagnostics;
 
 namespace Academic.API.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
+    [Produces("application/json")]
+    [SwaggerTag("Courses Management")]
     [ApiExplorerSettings(GroupName = "AcademicSystemAPIv1")]
+    //[Authorize(Roles = "Courses")]
     public class CourseController : ControllerBase
     {
         private readonly IService<CourseDTO> service;
