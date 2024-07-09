@@ -1,5 +1,6 @@
 ﻿using Academic.Application.DTOs.Course;
 using Academic.Application.DTOs.Subjects;
+using Academic.Infrastructure.Repository;
 
 namespace Academic.API.DependencyInjection
 {

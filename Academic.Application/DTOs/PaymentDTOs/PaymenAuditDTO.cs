@@ -2,6 +2,7 @@
 {
     public class PaymenAuditDTO
     {
+        public int Id { get; set; }
         public string? CourseName { get; set; }
         public DateTime TransactionDate { get; set; }
         public decimal Amount { get; set; }
