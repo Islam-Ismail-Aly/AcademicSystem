@@ -9,7 +9,7 @@ namespace Academic.API.Controllers
     [Route("api/[controller]")]
     [Produces("application/json")]
     [ApiExplorerSettings(GroupName = "AcademicSystemAPIv1")]
-    [Authorize(Roles = "Users")]
+    //[Authorize(Roles = "Users")]
     public class DashboardController : ControllerBase
     {
         private readonly IDashboardService _service;

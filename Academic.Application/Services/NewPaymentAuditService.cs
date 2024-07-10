@@ -59,6 +59,7 @@ namespace Academic.Application.Services
             {
                 paymentAuditDTOs.Add(new PaymenAuditDTO
                 {
+                    Id=item.Id,
                     CourseName = item.Course?.Name,
                     TransactionDate = item.TransactionDate,
                     Amount = item.Amount,
@@ -79,6 +80,7 @@ namespace Academic.Application.Services
 
             var paymentAuditDTO = new PaymenAuditDTO
             {
+                Id = paymentAudit.Id,
                 CourseName = paymentAudit.Course?.Name,
                 TransactionDate = paymentAudit.TransactionDate,
                 Amount = paymentAudit.Amount,

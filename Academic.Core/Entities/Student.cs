@@ -43,6 +43,6 @@ namespace Academic.Core.Entities
         public string? ApplicationUserId { get; set; }
         public ApplicationUser ApplicationUser { get; set; }
 
-        public ICollection<T>  StudentPhones{ get; private set; } = new HashSet<T>();
+        //public ICollection<StudentPhone>  StudentPhones{ get; private set; } = new HashSet<StudentPhone>();
     }
 }

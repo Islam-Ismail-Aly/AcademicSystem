@@ -12,6 +12,7 @@ namespace Academic.API.Controllers
     [Produces("application/json")]
     [SwaggerTag("Student Management")]
     [ApiExplorerSettings(GroupName = "AcademicSystemAPIv1")]
+    //[Authorize(Roles = "Students")]
     public class StudentController : ControllerBase
     {
         private readonly IStudentService service;

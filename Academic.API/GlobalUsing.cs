@@ -29,3 +29,6 @@ global using Academic.Application.Repositories;
 global using Academic.Application.DTOs.Subjects;
 global using Microsoft.AspNetCore.Authorization;
 global using Academic.Infrastructure.Repository;
+global using Academic.Application.DTOs.Course;
+global using Academic.Application.DTOs.Subjects;
+global using Academic.Infrastructure.Repository;

@@ -1,7 +1,9 @@
 ﻿namespace Academic.API.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
+    [Produces("application/json")]
+    [SwaggerTag("Subject Management")]
     [ApiExplorerSettings(GroupName = "AcademicSystemAPIv1")]
     //[Authorize(Roles = "Subjects")]
     public class SubjectController : ControllerBase

@@ -12,5 +12,6 @@ namespace Academic.Core.Entities
         public int? SupervisorId { get; set; }
         public Supervisor Supervisor { get; set; }
         public ICollection<ApplicationUser> ApplicationUsers { get; private set; } = new HashSet<ApplicationUser>();
+        public ICollection<Student> Students { get; private set; } = new HashSet<Student>();
     }
 }

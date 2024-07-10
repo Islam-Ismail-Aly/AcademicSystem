@@ -5,11 +5,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Academic.API.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
     [Produces("application/json")]
     [SwaggerTag("StudentPhone Management")]
     [ApiExplorerSettings(GroupName = "AcademicSystemAPIv1")]
+    //[Authorize(Roles = "Students")]
     public class StudentPhoneController : ControllerBase
     {
         private readonly IStudentPhoneService service;
