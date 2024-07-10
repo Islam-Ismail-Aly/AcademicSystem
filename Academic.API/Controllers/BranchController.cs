@@ -7,7 +7,7 @@ namespace Academic.API.Controllers
     [Produces("application/json")]
     [SwaggerTag("Branches Management")]
     [ApiExplorerSettings(GroupName = "AcademicSystemAPIv1")]
-    [Authorize(Roles = "Branches")]
+    //[Authorize(Roles = "Branches")]
     public class BranchController : ControllerBase
     {
         private readonly IBranchService _branchService;

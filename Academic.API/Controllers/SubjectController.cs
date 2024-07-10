@@ -3,7 +3,7 @@
     [Route("api/[controller]")]
     [ApiController]
     [ApiExplorerSettings(GroupName = "AcademicSystemAPIv1")]
-    [Authorize(Roles = "Subjects")]
+    //[Authorize(Roles = "Subjects")]
     public class SubjectController : ControllerBase
     {
         private readonly IService<SubjectDTO> service;

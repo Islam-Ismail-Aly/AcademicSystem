@@ -23,7 +23,7 @@ namespace Academic.Application.Services
             this._unitOfWork = _unitOfWork;
             this.mapper = mapper;
         }
-        public  async Task<APIResponseResult<bool>> AddStudentAsync(StudentDTO studentDTO)
+        public  async Task<APIResponseResult<Student>> AddStudentAsync(StudentDTO studentDTO)
         {
             var student = new Student() { AcademicYear=studentDTO.AcademicYear,GraduationYear=studentDTO.GraduationYear,ArabicName=studentDTO.ArabicName,EnglishName=studentDTO.EnglishName,Photo=studentDTO.Photo
             ,QualificationCertificate=studentDTO.QualificationCertificate,IdentityCard=studentDTO.IdentityCard,MilitrayStatus=studentDTO.MilitrayStatus,MoneyPaid=studentDTO.MoneyPaid,
@@ -33,7 +33,7 @@ namespace Academic.Application.Services
             await _unitOfWork.Entity.InsertAsync(student);
             await _unitOfWork.SaveAsync();
 
-            return new APIResponseResult<bool>(true, "Student is added successfully");
+            return new APIResponseResult<Student>(student, "Student is added successfully");
         }
 
         public async Task<APIResponseResult<bool>> DeleteStudentAsync(int id)

@@ -50,14 +50,14 @@ namespace Academic.API.Controllers
         [SwaggerOperation(Summary = StudentControllerSwaggerAttributes.AddStudentSummary)]
         [SwaggerResponse(201, StudentControllerSwaggerAttributes.AddStudentResponse201, typeof(APIResponseResult<bool>))]
         [SwaggerResponse(400, StudentControllerSwaggerAttributes.AddStudentResponse400)]
-        public async Task<ActionResult<APIResponseResult<bool>>> CreateStudent([FromBody] StudentDTO studentDTO)
+        public async Task<ActionResult<APIResponseResult<Student>>> CreateStudent([FromBody] StudentDTO studentDTO)
         {
             var result = await service.AddStudentAsync(studentDTO);
 
             if (!result.Success)
                 return StatusCode(404, result);
 
-            return CreatedAtAction(nameof(GetStudent), new { id = studentDTO.Id }, result);
+            return Ok(result);
         }
         [HttpPut("UpdateStudent/{id:int}")]
         [SwaggerOperation(Summary = StudentControllerSwaggerAttributes.UpdateStudentSummary)]
