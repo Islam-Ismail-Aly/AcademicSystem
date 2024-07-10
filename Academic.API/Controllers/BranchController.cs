@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Academic.Application.DTOs.Student;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Academic.API.Controllers
 {
@@ -117,6 +118,14 @@ namespace Academic.API.Controllers
                 return StatusCode(result.StatusCode, result);
 
             return NoContent();
+        }
+
+        [HttpGet("GetStudentsByBranchId/{id:int}")]
+        public async Task<ActionResult<APIResponseResult<StudentBranchesDTO>>> GetStudentsByBranchId(int id)
+        {
+            var result = await _branchService.GetStudentsByBranchId(id);
+
+            return Ok(result);
         }
     }
 }

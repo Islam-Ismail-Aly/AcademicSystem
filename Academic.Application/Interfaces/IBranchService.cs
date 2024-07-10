@@ -1,4 +1,5 @@
 ﻿using Academic.Application.DTOs.Branch;
+using Academic.Application.DTOs.Student;
 using Academic.Application.Utilities;
 
 namespace Academic.Application.Interfaces
@@ -12,5 +13,6 @@ namespace Academic.Application.Interfaces
         Task<APIResponseResult<bool>> AddBranchAsync(BranchDTO branchDto);
         Task<APIResponseResult<bool>> UpdateBranchAsync(BranchDTO branchDto);
         Task<APIResponseResult<bool>> DeleteBranchAsync(int id);
+        Task<IEnumerable<StudentBranchesDTO>> GetStudentsByBranchId(int Id);
     }
 }

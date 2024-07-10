@@ -94,6 +94,7 @@ namespace Academic.Application.Services
         {
             var paymentAddDb = new Payment()
             {
+                //Id = dto.Id,
                 MoneyPaid = dto.MoneyPaid,
                 NominatingAuthority = dto.NominatingAuthority,
                 RestOfMoney = dto.RestOfMoney,

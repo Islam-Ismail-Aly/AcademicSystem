@@ -1,4 +1,5 @@
 ﻿using Academic.Application.DTOs.Branch;
+using Academic.Application.DTOs.Student;
 using Academic.Application.Interfaces;
 using Academic.Application.Utilities;
 using Academic.Core.Entities;
@@ -90,6 +91,21 @@ namespace Academic.Application.Services
             await _unitOfWork.SaveAsync();
 
             return new APIResponseResult<bool>(true, "Branches deleted successfully");
+        }
+
+        public async Task<IEnumerable<StudentBranchesDTO>> GetStudentsByBranchId(int Id)
+        {
+            var branch = _unitOfWork.Entity.GetAllIncluding(b => b.Students)
+                                                .FirstOrDefault(b=>b.Id == Id);
+
+            return branch.Students
+                             .Select(s => new StudentBranchesDTO
+                             {
+                                 Id = s.Id,
+                                 ArabicName = s.ArabicName,
+                                 EnglishName = s.EnglishName,
+                                 MoneyPaid = s.MoneyPaid
+                             }).ToList();
         }
     }
 }
