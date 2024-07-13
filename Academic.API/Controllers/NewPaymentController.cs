@@ -41,7 +41,7 @@ namespace Academic.API.Controllers
         [SwaggerOperation(Summary = "Add a new payment", Description = "Adds a new payment to the system")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<APIResponseResult<bool>>> AddPayment(AddPaymentDTO dto)
+        public async Task<ActionResult<APIResponseResult<Payment>>> AddPayment(AddPaymentDTO dto)
         {
             var result = await _newPaymentService.AddPaymentAsync(dto);
             if (!result.Success)

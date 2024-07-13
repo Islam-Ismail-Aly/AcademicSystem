@@ -15,24 +15,24 @@ namespace Academic.Application.Services
         {
             _paymentUnitOfWork = paymentUnitOfWork;
         }
-        public async Task<APIResponseResult<bool>> AddPaymentAsync(AddPaymentDTO dto)
+        public async Task<APIResponseResult<Payment>> AddPaymentAsync(AddPaymentDTO dto)
         {
+            Payment paymentInDb = new Payment();
             if (dto != null)
             {
-                Payment paymentInDb = new Payment
-                {
-                    MoneyPaid = dto.MoneyPaid,
-                    NominatingAuthority = dto.NominatingAuthority,
-                    Notes = dto.Notes,
-                    RestOfMoney = dto.RestOfMoney,
-                    State = dto.State,
-                };
+
+
+                paymentInDb.MoneyPaid = dto.MoneyPaid;
+                paymentInDb.NominatingAuthority = dto.NominatingAuthority;
+                 paymentInDb.Notes = dto.Notes;
+                paymentInDb.RestOfMoney = dto.RestOfMoney;
+                paymentInDb.State = dto.State;
+                }
 
                 await _paymentUnitOfWork.Entity.InsertAsync(paymentInDb);
                 await _paymentUnitOfWork.SaveAsync();
-            }
-
-            return new APIResponseResult<bool>(StatusCodes.Status201Created, "Payment Added Successfully") { Success = true };
+            
+            return new APIResponseResult<Payment>(paymentInDb, "Payment Added Successfully") { Success = true };
         }
 
         public async Task<APIResponseResult<bool>> DeletePaymentAsync(int id)

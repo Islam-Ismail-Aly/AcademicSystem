@@ -1,5 +1,6 @@
 ﻿using Academic.Application.DTOs.PaymentDTOs;
 using Academic.Application.Utilities;
+using Academic.Core.Entities;
 
 namespace Academic.Application.Interfaces
 {
@@ -7,7 +8,7 @@ namespace Academic.Application.Interfaces
     {
         Task<IEnumerable<PaymentDTO>> GetAllPaymentsAsync();
         Task<APIResponseResult<PaymentDTO>> GetPaymentByIdAsync(int id);
-        Task<APIResponseResult<bool>> AddPaymentAsync(AddPaymentDTO dto);
+        Task<APIResponseResult<Payment>> AddPaymentAsync(AddPaymentDTO dto);
         Task<APIResponseResult<bool>> UpdatePaymentAsync(PaymentDTO dto);
         Task<APIResponseResult<bool>> DeletePaymentAsync(int id);
     }

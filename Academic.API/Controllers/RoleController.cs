@@ -10,7 +10,7 @@ namespace Academic.API.Controllers
     [Route("api/[controller]")]
     [Produces("application/json")]
     [SwaggerTag("Roles Management")]
-    [Authorize(Roles = "Groups")]
+    //[Authorize(Roles = "Groups")]
     public class RoleController : ControllerBase
     {
         private readonly IRoleService _service;
