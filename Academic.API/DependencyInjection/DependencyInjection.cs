@@ -46,7 +46,7 @@
             services.AddScoped(typeof(IService<CourseDTO>), typeof(CourseService));
             services.AddScoped(typeof(IStudentService), typeof(StudentService));
             services.AddScoped(typeof(IStudentPhoneService), typeof(StudentPhonesService));
-            //services.AddScoped(typeof(ICourseSubjectService), typeof(CourseSubjectsService));
+            services.AddScoped(typeof(ICourseSubjectService), typeof(CourseSubjectsService));
             services.AddScoped(typeof(IPaymentManager), typeof(PaymentManager));
 
 
